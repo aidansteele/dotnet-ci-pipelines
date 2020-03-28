@@ -5,7 +5,7 @@ on: [push]
 env:
   NUGET_PACKAGES_DIRECTORY: '.nupkg'
   RESHARPER_CLI_NAME: 'JetBrains.ReSharper.CommandLineTools.Unix'
-  RESHARPER_CLI_VERSION: "2019.2.3"
+  RESHARPER_CLI_VERSION: "2019.3.4"
   DOCKER_DRIVER: overlay
   CONTAINER_IMAGE: codeclimate/codeclimate
   CONTAINER_TAG: '0.85.2'
