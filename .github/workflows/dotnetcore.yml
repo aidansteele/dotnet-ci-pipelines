@@ -40,8 +40,10 @@ jobs:
     - name: Resharper Code Quality
       run: |
         set -eux
+        mkdir resharper && cd resharper
         curl -LO "https://download.jetbrains.com/resharper/ReSharperUltimate.$RESHARPER_CLI_VERSION/$RESHARPER_CLI_NAME.$RESHARPER_CLI_VERSION.tar.gz"
-        tar -xvf $RESHARPER_CLI_NAME.$RESHARPER_CLI_VERSION.tar.gz -d "resharper"
+        tar -xvf $RESHARPER_CLI_NAME.$RESHARPER_CLI_VERSION.tar.gz
+        cd ..
         mkdir -p CodeQuality
         files=(*.sln)
         sh ./resharper/dupfinder.sh "${files[0]}" --output=CodeQuality/dupfinderReport.html --format=Html
