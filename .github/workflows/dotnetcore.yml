@@ -21,27 +21,27 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 2.2.301
-    - name: Build with dotnet
-      run: dotnet build --configuration Release
-    - name: Tests
-      run: dotnet test --collect:"XPlat Code Coverage"
-    - name: Coverage Report
-      run: |
-        dotnet --version
-        dotnet tool install dotnet-reportgenerator-globaltool --tool-path tools
-        ./tools/reportgenerator "-reports:**/TestResults/*/coverage.cobertura.xml" "-targetdir:Reports" -reportTypes:TextSummary;
-        ./tools/reportgenerator "-reports:**/TestResults/*/coverage.cobertura.xml" "-targetdir:Reports" -reportTypes:Html;
-        ./tools/reportgenerator "-reports:**/TestResults/*/coverage.cobertura.xml" "-targetdir:Reports" -reportTypes:Badges;
-        cat ./Reports/Summary.txt
-    - uses: actions/upload-artifact@v1
-      with:
-          name: CodeCoverage
-          path: Reports
+#     - name: Build with dotnet
+#       run: dotnet build --configuration Release
+#     - name: Tests
+#       run: dotnet test --collect:"XPlat Code Coverage"
+#     - name: Coverage Report
+#       run: |
+#         dotnet --version
+#         dotnet tool install dotnet-reportgenerator-globaltool --tool-path tools
+#         ./tools/reportgenerator "-reports:**/TestResults/*/coverage.cobertura.xml" "-targetdir:Reports" -reportTypes:TextSummary;
+#         ./tools/reportgenerator "-reports:**/TestResults/*/coverage.cobertura.xml" "-targetdir:Reports" -reportTypes:Html;
+#         ./tools/reportgenerator "-reports:**/TestResults/*/coverage.cobertura.xml" "-targetdir:Reports" -reportTypes:Badges;
+#         cat ./Reports/Summary.txt
+#     - uses: actions/upload-artifact@v1
+#       with:
+#           name: CodeCoverage
+#           path: Reports
     - name: Resharper Code Quality
       run: |
-        # apt update && apt install -y curl zip unzip
-        curl -LO "https://download.jetbrains.com/resharper/ReSharperUltimate.$RESHARPER_CLI_VERSION/$RESHARPER_CLI_NAME.$RESHARPER_CLI_VERSION.zip"
-        unzip -q $RESHARPER_CLI_NAME.$RESHARPER_CLI_VERSION.zip -d "resharper"
+        set -eux
+        curl -LO "https://download.jetbrains.com/resharper/ReSharperUltimate.$RESHARPER_CLI_VERSION/$RESHARPER_CLI_NAME.$RESHARPER_CLI_VERSION.tar.gz"
+        tar -xvf $RESHARPER_CLI_NAME.$RESHARPER_CLI_VERSION.tar.gz -d "resharper"
         mkdir -p CodeQuality
         files=(*.sln)
         sh ./resharper/dupfinder.sh "${files[0]}" --output=CodeQuality/dupfinderReport.html --format=Html
